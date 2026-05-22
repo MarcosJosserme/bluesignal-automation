@@ -1,26 +1,55 @@
-# BlueSignal Automation
+# BlueSignal Automation Framework
 
-Framework de automatización de pruebas funcionales para https://bluesignal.org.
+Framework de automatización de pruebas end-to-end para BlueSignal, desarrollado con Java, Maven, Selenium WebDriver, JUnit 5, Page Object Model y Page Factory.
 
-## Objetivo
+El objetivo del proyecto es validar flujos principales de la plataforma BlueSignal mediante una estructura mantenible, reutilizable y escalable.
 
-Automatizar flujos críticos de la plataforma BlueSignal utilizando Selenium WebDriver y Java.
+---
 
-## Stack tecnológico
+## Tecnologías utilizadas
 
-- Java 17
+- Java
 - Maven
 - Selenium WebDriver
 - JUnit 5
 - WebDriverManager
+- Page Object Model
+- Page Factory
+- ChromeDriver
 
-## Arquitectura inicial
+---
+
+## Estructura del proyecto
 
 ```text
-src/test/java/org/bluesignal/
-
-core/
-→ configuración base y manejo de drivers
-
-tests/
-→ casos de prueba automatizados
+src/test/java/org/bluesignal
+│
+├── core
+│   ├── BasePage.java
+│   ├── BaseTest.java
+│   └── DriverFactory.java
+│
+├── components
+│   └── NavbarComponent.java
+│
+├── pages
+│   ├── home
+│   │   ├── HomePage.java
+│   │   └── components
+│   │       ├── MapComponent.java
+│   │       └── LocalitySelectorComponent.java
+│   │
+│   ├── report
+│   │   ├── ReportPage.java
+│   │   └── components
+│   │       └── ReportFormComponent.java
+│   │
+│   └── login
+│       ├── LoginPage.java
+│       └── components
+│           └── LoginFormComponent.java
+│
+└── tests
+    ├── HomeTest.java
+    ├── ReportTest.java
+    └── LoginTest.java
