@@ -8,6 +8,7 @@ import org.bluesignal.pages.home.HomePage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HomeSteps {
@@ -39,8 +40,8 @@ public class HomeSteps {
          */
         ((JavascriptExecutor) driver).executeScript(
                 "localStorage.setItem(" +
-                "'bluesignal_pwa_install_dismissed_v1', " +
-                "String(Date.now()));"
+                        "'bluesignal_pwa_install_dismissed_v1', " +
+                        "String(Date.now()));"
         );
 
         driver.navigate().refresh();
@@ -48,33 +49,50 @@ public class HomeSteps {
         homePage = new HomePage(driver);
     }
 
+    @When("el visitante selecciona la localidad {string}")
+    public void elVisitanteSeleccionaLaLocalidad(String localidad) {
+
+        homePage.localitySelector().open();
+        homePage.localitySelector().selectLocality(localidad);
+    }
+
     @Then("la página principal se muestra correctamente")
     public void laPaginaPrincipalSeMuestraCorrectamente() {
 
         assertTrue(
-            homePage.isLoaded(),
-            "La página principal de BlueSignal no se cargó correctamente"
+                homePage.isLoaded(),
+                "La página principal de BlueSignal no se cargó correctamente"
         );
     }
-    
+
     @Then("el mapa principal de avistajes se muestra correctamente")
     public void elMapaPrincipalDeAvistajesSeMuestraCorrectamente() {
 
         assertTrue(
-            homePage.isLoaded(),
-            "La página principal no terminó de cargar"
+                homePage.isLoaded(),
+                "La página principal no terminó de cargar"
         );
 
         homePage.map().scrollIntoView();
 
         assertTrue(
-            homePage.map().isVisible(),
-            "El contenedor del mapa principal no está visible"
+                homePage.map().isVisible(),
+                "El contenedor del mapa principal no está visible"
         );
 
         assertTrue(
-            homePage.map().isCanvasVisible(),
-            "El canvas de MapLibre no está visible"
+                homePage.map().isCanvasVisible(),
+                "El canvas de MapLibre no está visible"
+        );
+    }
+
+    @Then("la localidad {string} queda seleccionada")
+    public void laLocalidadQuedaSeleccionada(String localidadEsperada) {
+
+        assertEquals(
+                localidadEsperada,
+                homePage.localitySelector().getSelectedLocality(),
+                "La localidad seleccionada no coincide con la esperada"
         );
     }
 }

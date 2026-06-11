@@ -17,3 +17,16 @@ Feature: Página principal de BlueSignal
   @map
   Scenario: Visualización del mapa principal
     Then el mapa principal de avistajes se muestra correctamente
+
+  @regression
+  @home
+  @locality
+  Scenario Outline: Selección de una localidad
+    When el visitante selecciona la localidad "<localidad>"
+    Then la localidad "<localidad>" queda seleccionada
+
+    Examples:
+      | localidad       |
+      | Mar del Plata   |
+      | Puerto Madryn   |
+      | Ushuaia         |
