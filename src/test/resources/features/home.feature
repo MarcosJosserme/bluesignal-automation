@@ -3,9 +3,17 @@ Feature: Página principal de BlueSignal
   Quiero acceder a la página principal
   Para consultar información sobre avistajes de fauna marina
 
-    @smoke
-    @home
-    Scenario: Acceso exitoso a la página principal
-        Given el visitante no se encuentra autenticado
-        When accede a la página principal de BlueSignal
-        Then la página principal se muestra correctamente
+  Background:
+    Given el visitante no se encuentra autenticado
+    When accede a la página principal de BlueSignal
+
+  @smoke
+  @home
+  Scenario: Acceso exitoso a la página principal
+    Then la página principal se muestra correctamente
+
+  @regression
+  @home
+  @map
+  Scenario: Visualización del mapa principal
+    Then el mapa principal de avistajes se muestra correctamente

@@ -52,8 +52,29 @@ public class HomeSteps {
     public void laPaginaPrincipalSeMuestraCorrectamente() {
 
         assertTrue(
-                homePage.isLoaded(),
-                "La página principal de BlueSignal no se cargó correctamente"
+            homePage.isLoaded(),
+            "La página principal de BlueSignal no se cargó correctamente"
+        );
+    }
+    
+    @Then("el mapa principal de avistajes se muestra correctamente")
+    public void elMapaPrincipalDeAvistajesSeMuestraCorrectamente() {
+
+        assertTrue(
+            homePage.isLoaded(),
+            "La página principal no terminó de cargar"
+        );
+
+        homePage.map().scrollIntoView();
+
+        assertTrue(
+            homePage.map().isVisible(),
+            "El contenedor del mapa principal no está visible"
+        );
+
+        assertTrue(
+            homePage.map().isCanvasVisible(),
+            "El canvas de MapLibre no está visible"
         );
     }
 }
