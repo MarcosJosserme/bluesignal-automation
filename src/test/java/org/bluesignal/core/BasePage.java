@@ -40,13 +40,13 @@ public abstract class BasePage {
     }
 
     protected boolean isDisplayed(WebElement element) {
-        try {
-            waitForVisibility(element);
-            return element.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+    try {
+        waitForVisibility(element);
+        return element.isDisplayed();
+    } catch (Exception e) {
+        return false;
     }
+}
 
     protected void selectByVisibleText(WebElement selectElement, String visibleText) {
         waitForVisibility(selectElement);

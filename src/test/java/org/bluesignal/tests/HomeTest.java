@@ -24,8 +24,11 @@ public class HomeTest extends BaseTest {
         HomePage homePage = new HomePage(driver);
 
         assertTrue(homePage.isLoaded());
-        assertTrue(homePage.map().isVisible());
-        assertTrue(homePage.map().isCanvasVisible());
+
+homePage.map().scrollIntoView();
+
+assertTrue(homePage.map().isVisible());
+assertTrue(homePage.map().isCanvasVisible());
     }
 
     @Test
