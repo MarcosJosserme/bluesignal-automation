@@ -29,3 +29,10 @@ Feature: Formulario de reporte de avistajes
       | distancia  | En el mar: cerca (< 1 km)   |
       | comentario | Avistaje automatizado de QA  |
     Then los datos básicos quedan cargados correctamente
+
+  @regression
+  @report
+  @external-data
+  Scenario: Completar parcialmente el formulario con datos externos
+    When el visitante completa los datos básicos desde el archivo JSON
+    Then los datos externos quedan cargados correctamente
