@@ -61,12 +61,13 @@ public abstract class BasePage {
     }
 
     protected void scrollTo(WebElement element) {
-        waitForVisibility(element);
 
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block: 'center'});",
-                element
-        );
+    ((JavascriptExecutor) driver).executeScript(
+            "arguments[0].scrollIntoView({block: 'center'});",
+            element
+    );
+
+        waitForVisibility(element);
     }
 
     protected void waitUntilUrlContains(String partialUrl) {
@@ -98,5 +99,10 @@ public abstract class BasePage {
 
     public void navigateTo(String url) {
         driver.get(url);
+    }
+
+    protected String getValue(WebElement element) {
+    waitForVisibility(element);
+    return element.getAttribute("value");
     }
 }

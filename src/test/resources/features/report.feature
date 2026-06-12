@@ -18,3 +18,14 @@ Feature: Formulario de reporte de avistajes
   @report
   Scenario: Formulario vacío sin posibilidad de envío
     Then el botón de envío del reporte permanece deshabilitado
+
+  @regression
+  @report
+  @data-table
+  Scenario: Completar parcialmente el formulario con datos estructurados
+    When el visitante completa los datos básicos del reporte
+      | especie    | Ballena Franca Austral       |
+      | cantidad   | 2                            |
+      | distancia  | En el mar: cerca (< 1 km)   |
+      | comentario | Avistaje automatizado de QA  |
+    Then los datos básicos quedan cargados correctamente
