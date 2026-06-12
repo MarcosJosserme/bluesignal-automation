@@ -25,6 +25,7 @@
         <cucumber.version>7.18.0</cucumber.version>
         <allure.version>2.27.0</allure.version>
         <webdrivermanager.version>5.8.0</webdrivermanager.version>
+        <jackson.version>2.21.3</jackson.version>
 
     </properties>
 
@@ -82,6 +83,13 @@
             <artifactId>allure-junit5</artifactId>
             <version>${allure.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Lectura y mapeo de archivos JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
     </dependencies>
