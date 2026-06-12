@@ -21,9 +21,11 @@
         <!-- Versiones centralizadas -->
         <selenium.version>4.21.0</selenium.version>
         <junit.version>5.10.2</junit.version>
+        <junit.platform.version>1.10.2</junit.platform.version>
         <cucumber.version>7.18.0</cucumber.version>
         <allure.version>2.27.0</allure.version>
         <webdrivermanager.version>5.8.0</webdrivermanager.version>
+        <jackson.version>2.21.3</jackson.version>
 
     </properties>
 
@@ -51,6 +53,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Platform Suite para el runner de Cucumber -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Cucumber Java -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -73,6 +83,13 @@
             <artifactId>allure-junit5</artifactId>
             <version>${allure.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Lectura y mapeo de archivos JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
     </dependencies>

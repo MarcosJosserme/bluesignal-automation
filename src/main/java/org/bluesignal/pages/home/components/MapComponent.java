@@ -1,6 +1,7 @@
 package org.bluesignal.pages.home.components;
 
 import org.bluesignal.core.BasePage;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +16,13 @@ public class MapComponent extends BasePage {
 
     public MapComponent(WebDriver driver) {
         super(driver);
+    }
+
+    public void scrollIntoView() {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center'});",
+                mapContainer
+        );
     }
 
     public boolean isVisible() {
