@@ -1,55 +1,458 @@
 # BlueSignal Automation Framework
 
-Framework de automatización de pruebas end-to-end para BlueSignal, desarrollado con Java, Maven, Selenium WebDriver, JUnit 5, Page Object Model y Page Factory.
+Framework de automatización de pruebas funcionales end-to-end para [BlueSignal](https://bluesignal.org), desarrollado con Java, Maven, Selenium WebDriver, Cucumber, JUnit 5 y Page Object Model.
 
-El objetivo del proyecto es validar flujos principales de la plataforma BlueSignal mediante una estructura mantenible, reutilizable y escalable.
+El proyecto automatiza comportamientos críticos de la plataforma mediante escenarios BDD escritos en Gherkin, manteniendo separada la descripción funcional de las pruebas respecto de la implementación técnica de Selenium.
+
+---
+
+## Objetivo
+
+El framework tiene como objetivo validar los principales flujos de BlueSignal mediante una arquitectura:
+
+* Legible para perfiles técnicos y funcionales.
+* Reutilizable.
+* Mantenible.
+* Escalable.
+* Basada en separación de responsabilidades.
+* Preparada para incorporar nuevos escenarios y fuentes de datos.
 
 ---
 
 ## Tecnologías utilizadas
 
-- Java
-- Maven
-- Selenium WebDriver
-- JUnit 5
-- WebDriverManager
-- Page Object Model
-- Page Factory
-- ChromeDriver
+* Java 17
+* Maven
+* Selenium WebDriver
+* Cucumber
+* Gherkin
+* JUnit 5
+* JUnit Platform Suite
+* Page Object Model
+* Page Factory
+* WebDriverManager
+* Jackson Databind
+* ChromeDriver
+* Reportes HTML de Cucumber
+
+---
+
+## Arquitectura
+
+El framework combina BDD con Page Object Model.
+
+```text
+Archivo .feature
+        ↓
+Cucumber
+        ↓
+Step Definitions
+        ↓
+Page Objects
+        ↓
+Components
+        ↓
+BasePage
+        ↓
+Selenium WebDriver
+        ↓
+BlueSignal
+```
+
+### Responsabilidades
+
+* **Features:** describen comportamientos en lenguaje Gherkin.
+* **Steps:** conectan los pasos funcionales con código Java.
+* **Page Objects:** representan las páginas de BlueSignal.
+* **Components:** encapsulan regiones específicas de la interfaz.
+* **Hooks:** administran el navegador antes y después de cada escenario.
+* **DriverFactory:** crea y configura ChromeDriver.
+* **DriverContext:** comparte el mismo WebDriver entre Hooks y Steps.
+* **BasePage:** centraliza operaciones comunes de Selenium.
+* **Data models:** representan datos externos como objetos Java.
+* **Utils:** contienen utilidades reutilizables del framework.
 
 ---
 
 ## Estructura del proyecto
 
 ```text
-src/test/java/org/bluesignal
+src
+├── main
+│   └── java
+│       └── org
+│           └── bluesignal
+│               ├── components
+│               │   └── NavbarComponent.java
+│               │
+│               ├── core
+│               │   ├── BasePage.java
+│               │   ├── DriverContext.java
+│               │   └── DriverFactory.java
+│               │
+│               ├── data
+│               │   └── models
+│               │       ├── ReportData.java
+│               │       └── ReportTestData.java
+│               │
+│               ├── pages
+│               │   ├── home
+│               │   │   ├── HomePage.java
+│               │   │   └── components
+│               │   │       ├── LocalitySelectorComponent.java
+│               │   │       └── MapComponent.java
+│               │   │
+│               │   ├── login
+│               │   │   ├── LoginPage.java
+│               │   │   └── components
+│               │   │       └── LoginFormComponent.java
+│               │   │
+│               │   └── report
+│               │       ├── ReportPage.java
+│               │       └── components
+│               │           └── ReportFormComponent.java
+│               │
+│               └── utils
+│                   └── JsonDataReader.java
 │
-├── core
-│   ├── BasePage.java
-│   ├── BaseTest.java
-│   └── DriverFactory.java
-│
-├── components
-│   └── NavbarComponent.java
-│
-├── pages
-│   ├── home
-│   │   ├── HomePage.java
-│   │   └── components
-│   │       ├── MapComponent.java
-│   │       └── LocalitySelectorComponent.java
-│   │
-│   ├── report
-│   │   ├── ReportPage.java
-│   │   └── components
-│   │       └── ReportFormComponent.java
-│   │
-│   └── login
-│       ├── LoginPage.java
-│       └── components
-│           └── LoginFormComponent.java
-│
-└── tests
-    ├── HomeTest.java
-    ├── ReportTest.java
-    └── LoginTest.java
+└── test
+    ├── java
+    │   └── org
+    │       └── bluesignal
+    │           ├── hooks
+    │           │   └── Hooks.java
+    │           │
+    │           ├── runners
+    │           │   └── RunCucumberTest.java
+    │           │
+    │           ├── steps
+    │           │   ├── HomeSteps.java
+    │           │   ├── LoginSteps.java
+    │           │   └── ReportSteps.java
+    │           │
+    │           └── utils
+    │               └── JsonDataReaderTest.java
+    │
+    └── resources
+        ├── data
+        │   └── report-data.json
+        │
+        └── features
+            ├── home.feature
+            ├── login.feature
+            └── report.feature
+```
+
+---
+
+## Escenarios automatizados
+
+### Página principal
+
+* Acceso exitoso a la página principal.
+* Visualización del mapa principal de avistajes.
+* Selección parametrizada de localidades:
+
+  * Mar del Plata.
+  * Puerto Madryn.
+  * Ushuaia.
+
+### Inicio de sesión
+
+* Visualización de la página de inicio de sesión.
+* Visualización de los controles del formulario.
+* Inicio de sesión con credenciales inválidas.
+* Validación del mensaje de error de autenticación.
+
+### Formulario de reporte
+
+* Acceso exitoso al formulario.
+* Botón de envío deshabilitado cuando el formulario está vacío.
+* Carga parcial de datos mediante DataTable.
+* Carga parcial mediante datos externos JSON.
+* Validación de los valores cargados.
+
+Los escenarios del formulario no realizan el envío final, para evitar generar registros automatizados en la plataforma.
+
+---
+
+## Recursos de Gherkin utilizados
+
+El proyecto implementa:
+
+* `Feature`
+* `Background`
+* `Scenario`
+* `Scenario Outline`
+* `Examples`
+* `Given`
+* `When`
+* `Then`
+* `And`
+* Data Tables
+* Tags
+
+Ejemplo de Scenario Outline:
+
+```gherkin
+Scenario Outline: Selección de una localidad
+  When el visitante selecciona la localidad "<localidad>"
+  Then la localidad "<localidad>" queda seleccionada
+
+Examples:
+  | localidad     |
+  | Mar del Plata |
+  | Puerto Madryn |
+  | Ushuaia       |
+```
+
+---
+
+## Datos externos
+
+Los datos externos del formulario se encuentran en:
+
+```text
+src/test/resources/data/report-data.json
+```
+
+Ejemplo:
+
+```json
+{
+  "basicReport": {
+    "species": "Ballena Franca Austral",
+    "quantity": "2",
+    "distance": "En el mar: cerca (< 1 km)",
+    "comment": "Avistaje automatizado de QA"
+  }
+}
+```
+
+El archivo se procesa mediante:
+
+```text
+JsonDataReader
+      ↓
+Jackson ObjectMapper
+      ↓
+ReportTestData
+      ↓
+ReportData
+```
+
+La lectura del JSON también cuenta con una prueba unitaria independiente.
+
+---
+
+## Hooks
+
+Cada escenario Cucumber tiene su propio ciclo de navegador:
+
+```text
+@Before
+   ↓
+Background
+   ↓
+Given / When / Then
+   ↓
+@After
+```
+
+El Hook `@Before`:
+
+* Crea ChromeDriver.
+* Registra el navegador en `DriverContext`.
+
+El Hook `@After`:
+
+* Informa el estado del escenario.
+* Cierra el navegador.
+* Elimina la referencia del `ThreadLocal`.
+
+---
+
+## Requisitos previos
+
+Para ejecutar el proyecto se requiere:
+
+* Java 17 o superior.
+* Maven 3.9 o superior.
+* Google Chrome.
+* Git.
+* Acceso a Internet.
+
+Verificar las instalaciones:
+
+```powershell
+java -version
+mvn -version
+git --version
+```
+
+---
+
+## Ejecución completa
+
+Desde la raíz del proyecto:
+
+```powershell
+mvn clean test
+```
+
+Resultado de referencia:
+
+```text
+Tests run: 13
+Failures: 0
+Errors: 0
+Skipped: 0
+BUILD SUCCESS
+```
+
+La ejecución está compuesta por:
+
+```text
+12 ejecuciones funcionales Cucumber
++
+1 test unitario de JsonDataReader
+=
+13 pruebas
+```
+
+---
+
+## Ejecución mediante tags
+
+### Smoke tests
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@smoke"
+```
+
+### Regression tests
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@regression"
+```
+
+### Escenarios de Home
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@home"
+```
+
+### Escenarios de Login
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@login"
+```
+
+### Escenarios de Reporte
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@report"
+```
+
+### Escenarios negativos
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@negative"
+```
+
+### Escenarios con datos externos
+
+```powershell
+mvn clean test "-Dcucumber.filter.tags=@external-data"
+```
+
+---
+
+## Reporte HTML de Cucumber
+
+Después de ejecutar la suite, el reporte se genera en:
+
+```text
+target/cucumber-report.html
+```
+
+Para abrirlo en Windows:
+
+```powershell
+Start-Process .\target\cucumber-report.html
+```
+
+El reporte incluye:
+
+* Features.
+* Escenarios.
+* Tags.
+* Pasos ejecutados.
+* Estado de cada paso.
+* Duración.
+* Detalle de errores.
+
+La carpeta `target` no se versiona porque contiene archivos generados automáticamente.
+
+---
+
+## Gestión de WebDriver
+
+Por defecto, el framework utiliza WebDriverManager:
+
+```powershell
+mvn clean test
+```
+
+También admite el uso de un ChromeDriver local:
+
+```powershell
+mvn clean test "-Ddriver.mode=manual"
+```
+
+En modo manual, el ejecutable debe encontrarse en:
+
+```text
+drivers/chromedriver.exe
+```
+
+---
+
+## Documentación
+
+La documentación de las entregas se encuentra en:
+
+```text
+docs/
+├── entrega-1-analisis.md
+├── entrega-2-analisis.md
+└── entrega-3-analisis.md
+```
+
+Las evidencias de la Entrega 3 se almacenan en:
+
+```text
+docs/evidencias/entrega-3/
+```
+
+---
+
+## Estado actual
+
+```text
+Arquitectura BDD + POM implementada
+Cucumber configurado
+Hooks configurados
+Scenario Outline implementado
+DataTable implementada
+Datos externos JSON implementados
+Reporte HTML generado
+Tests funcionales JUnit migrados a Cucumber
+13 pruebas ejecutadas correctamente
+```
+
+---
+
+## Autor
+
+**Marcos Josserme**
