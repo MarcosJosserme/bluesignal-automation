@@ -13,3 +13,10 @@ allure-report/
 
 # Local drivers opcional
 drivers/chromedriver.exe
+# Allure / reportes generados
+.allure/
+allure-results/
+target/
+
+# Drivers locales
+drivers/
