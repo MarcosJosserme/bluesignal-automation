@@ -1,22 +1,25 @@
+# Build / Maven
 target/
+
+# IDE
 .idea/
 .vscode/
 *.iml
+
+# Logs
 *.log
 
-# Maven / Java
+# Maven wrapper
 .mvn/wrapper/maven-wrapper.jar
 
-# Test reports
+# Allure / reportes generados
 allure-results/
 allure-report/
-
-# Local drivers opcional
-drivers/chromedriver.exe
-# Allure / reportes generados
 .allure/
-allure-results/
-target/
 
 # Drivers locales
 drivers/
+
+# Variables de entorno
+.env
+.env.*
