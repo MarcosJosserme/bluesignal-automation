@@ -34,6 +34,9 @@ El framework tiene como objetivo validar los principales flujos de BlueSignal me
 * Jackson Databind
 * ChromeDriver
 * Reportes HTML de Cucumber
+* Allure Report
+* Allure Maven Plugin
+
 
 ---
 
@@ -396,6 +399,75 @@ La carpeta `target` no se versiona porque contiene archivos generados automátic
 
 ---
 
+## Reportes avanzados con Allure Report
+
+A partir de la Entrega 4, el framework incorpora **Allure Report** para generar reportes visuales e interactivos de las ejecuciones automatizadas.
+
+Allure permite enriquecer los resultados de prueba con:
+
+* Agrupación funcional por Epic, Feature y Story.
+* Severidad de escenarios.
+* Descripciones funcionales.
+* Pasos detallados de ejecución.
+* Evidencias visuales mediante capturas de pantalla adjuntas.
+* Métricas de ejecución.
+* Vista Behaviors para analizar el comportamiento validado por el framework.
+
+Los metadatos y evidencias fueron incorporados en los Step Definitions de los siguientes flujos:
+
+* Página principal.
+* Inicio de sesión.
+* Formulario de reporte.
+
+### Generar resultados de Allure
+
+Desde la raíz del proyecto:
+
+```powershell
+mvn clean test
+```
+
+Este comando ejecuta la suite automatizada y genera los resultados crudos de Allure en:
+
+```text
+allure-results/
+```
+
+### Visualizar el reporte Allure
+
+Para levantar el reporte en el navegador:
+
+```powershell
+mvn allure:serve
+```
+
+También puede generarse el reporte estático con:
+
+```powershell
+mvn allure:report
+```
+
+El reporte generado por Maven se ubica en:
+
+```text
+target/site/allure-maven-plugin/
+```
+
+Las carpetas `allure-results`, `.allure` y `target` no se versionan porque contienen archivos generados automáticamente.
+
+### Evidencias incorporadas
+
+El reporte Allure permite visualizar:
+
+* Ejecución general al 100%.
+* Escenarios agrupados por módulo funcional.
+* Severidad de escenarios críticos.
+* Descripciones del objetivo de cada prueba.
+* Steps ejecutados durante el flujo.
+* Capturas de pantalla adjuntas como evidencia visual.
+
+---
+
 ## Gestión de WebDriver
 
 Por defecto, el framework utiliza WebDriverManager:
@@ -426,14 +498,25 @@ La documentación de las entregas se encuentra en:
 docs/
 ├── entrega-1-analisis.md
 ├── entrega-2-analisis.md
-└── entrega-3-analisis.md
+├── entrega-3-analisis.md
+└── entrega-4-analisis.md
 ```
 
-Las evidencias de la Entrega 3 se almacenan en:
+Las evidencias se almacenan en:
 
 ```text
-docs/evidencias/entrega-3/
+docs/evidencias/
+├── entrega-3/
+└── entrega-4/
 ```
+
+Las evidencias de la Entrega 4 incluyen:
+
+* Ejecución exitosa con `mvn clean test`.
+* Overview de Allure Report.
+* Vista Behaviors agrupada por BlueSignal.
+* Escenarios con Severity, Description y Execution steps.
+* Capturas de pantalla adjuntas como attachments.
 
 ---
 
@@ -446,7 +529,12 @@ Hooks configurados
 Scenario Outline implementado
 DataTable implementada
 Datos externos JSON implementados
-Reporte HTML generado
+Reporte HTML de Cucumber generado
+Allure Report configurado
+Allure Maven Plugin configurado
+Metadatos funcionales incorporados en Step Definitions
+Steps de ejecución visibles en Allure
+Screenshots adjuntos como evidencia visual
 Tests funcionales JUnit migrados a Cucumber
 13 pruebas ejecutadas correctamente
 ```
